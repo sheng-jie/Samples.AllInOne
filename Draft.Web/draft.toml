@@ -1,6 +1,6 @@
 [environments]
   [environments.development]
-    name = "Draft.Web"
+    name = "draftweb"
     namespace = "default"
     wait = true
     watch = false

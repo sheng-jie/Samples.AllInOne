@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.1-sdk AS builder
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS builder
 WORKDIR /app
 
 # caches restore result by copying csproj file separately
@@ -11,7 +11,7 @@ RUN sed -n 's:.*<AssemblyName>\(.*\)</AssemblyName>.*:\1:p' *.csproj > __assembl
 RUN if [ ! -s __assemblyname ]; then filename=$(ls *.csproj); echo ${filename%.*} > __assemblyname; fi
 
 # Stage 2
-FROM microsoft/dotnet:2.1-aspnetcore-runtime
+FROM microsoft/dotnet:2.2-aspnetcore-runtime
 WORKDIR /app
 COPY --from=builder /app .
 
