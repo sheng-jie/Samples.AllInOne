@@ -21,6 +21,10 @@ namespace Orleans.Client
             var friend = _client.GetGrain<IHello>(0);
             var response = await friend.SayHello("Good morning, my friend!");
             Console.WriteLine("\n\n{0}\n\n", response);
+            var test = _client.GetGrain<ITest>(0);
+
+            var num = await test.GetNum(99);
+            Console.WriteLine(num);
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
