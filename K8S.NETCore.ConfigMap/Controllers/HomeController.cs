@@ -4,18 +4,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Elk.Demo.Models;
+using K8S.NETCore.ConfigMap.Models;
 
-namespace Elk.Demo.Controllers
+namespace K8S.NETCore.ConfigMap.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger=logger;
-        }
         public IActionResult Index()
         {
             return View();
