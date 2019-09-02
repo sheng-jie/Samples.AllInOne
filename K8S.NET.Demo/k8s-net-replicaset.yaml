@@ -1,0 +1,18 @@
+apiVersion: apps/v1beta2 # rs 的版本号为apps/v1beta2
+kind: ReplicaSet # 定义Kubernetes资源的类型为ReplicaSet
+metadata:
+  name: k8s-net-replicaset # 定义资源的名称
+spec:
+  replicas: 3 # 指定pod实例的个数
+  selector: # pod选择器
+    matchLabels: # 指定匹配的标签
+      app: k8s-net-pod # 指定Pod的标签为k8s-net-pod
+  template: # 创建新的pod模板配置
+    metadata:
+      labels:
+        app: k8s-net-pod # 指定使用哪个pod
+    spec:
+      containers:
+      - name: k8s-net-replicaset
+        image: k8s.net.demo # 指定使用的镜像 
+        imagePullPolicy: IfNotPresent # k8s默认值为Always，总是从远端拉取镜像，通过设置IfNotPresent或Never来使用本地镜像

@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod # 定义Kubernetes资源的类型为Pod
+metadata:
+  name: k8s-net-pod # 定义资源的名称
+  labels: # 为Pod贴上标签，后面会介绍其用处
+    app: k8s-net-pod
+spec: # 定义资源的状态，对于Pod来说，最重要属性就是containers
+  containers: # containers一个数组类型，如果你希望部署多个容器，可以添加多项
+    - name: web # 定义本Pod中该容器的名称
+      image: k8s.net.demo # 定义Pod启动的容器镜像地址
+      imagePullPolicy: IfNotPresent # k8s默认值为Always，总是从远端拉取镜像，通过设置IfNotPresent或Never来使用本地镜像
+      ports:
+        - containerPort: 80 # 定义容器监听的端口（与Dockerfile中的EXPOSE类似，只是为了提供文档信息）
+      livenessProbe:
+        httpGet:
+          path: /Home/CheckHealth
+          port: 80
+        periodSeconds: 60
