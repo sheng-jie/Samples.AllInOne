@@ -1,0 +1,36 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: configmap-demo
+spec:
+  selector:
+    matchLabels:
+      app: configmap-demo
+  template:
+    metadata:
+      labels:
+        app: configmap-demo
+    spec:
+      containers:
+      - name: configmap-demo
+        image: k8s-netcore-configmap:dev
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - mountPath: /app/appsettings.json
+            name: test
+            readOnly: true
+            subPath: appsettings.json
+          - mountPath: /app/appsettings.Development.json
+            name: test
+            readOnly: true
+            subPath: appsettings.Development.json         
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: appsettings
+        name: test        
