@@ -6,10 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Protos\LuCat.proto" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.9.2" />
     <PackageReference Include="Grpc.Net.Client" Version="2.23.2" />
     <PackageReference Include="Grpc.Tools" Version="2.23.0">
@@ -17,9 +13,11 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
+
+
   <ItemGroup>
-    <Protobuf Include="Protos\LuCat.proto" />
-    <Protobuf Include="Protos\greet.proto" />
-</ItemGroup>
+    <Protobuf Include="..\Protos\greet.proto" Link="Protos\greet.proto" />
+    <Protobuf Include="..\Protos\LuCat.proto" Link="Protos\LuCat.proto" />
+  </ItemGroup>
 
 </Project>

@@ -1,11 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29318.209
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grpc.Demo.Server", "Grpc.Demo.Server\Grpc.Demo.Server.csproj", "{3F0BC4DB-11CD-4B5A-B8B9-23EF3411AE5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grpc.Demo.Server", "Grpc.Demo.Server\Grpc.Demo.Server.csproj", "{3F0BC4DB-11CD-4B5A-B8B9-23EF3411AE5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grpc.Demo.Client", "Grpc.Demo.Client\Grpc.Demo.Client.csproj", "{FCE2CC8F-EC4C-487A-979D-A0EBB79B4C09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grpc.Demo.Client", "Grpc.Demo.Client\Grpc.Demo.Client.csproj", "{FCE2CC8F-EC4C-487A-979D-A0EBB79B4C09}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Protos", "Protos", "{979333DA-AF0C-4233-AE69-41C7BA7E2825}"
+	ProjectSection(SolutionItems) = preProject
+		Protos\greet.proto = Protos\greet.proto
+		Protos\LuCat.proto = Protos\LuCat.proto
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3F0BC4DB-11CD-4B5A-B8B9-23EF3411AE5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -44,5 +47,11 @@ Global
 		{FCE2CC8F-EC4C-487A-979D-A0EBB79B4C09}.Release|x64.Build.0 = Release|Any CPU
 		{FCE2CC8F-EC4C-487A-979D-A0EBB79B4C09}.Release|x86.ActiveCfg = Release|Any CPU
 		{FCE2CC8F-EC4C-487A-979D-A0EBB79B4C09}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DE7BD086-A1CF-4365-97FB-4CDE6FD267DD}
 	EndGlobalSection
 EndGlobal

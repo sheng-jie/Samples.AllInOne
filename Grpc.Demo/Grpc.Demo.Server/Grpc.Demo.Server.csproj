@@ -5,16 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Protos\LuCat.proto" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Protobuf Include="Protos\greet.proto" />
-    <Protobuf Include="Protos\LuCat.proto" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.23.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="..\Protos\greet.proto" Link="Protos\greet.proto" />
+    <Protobuf Include="..\Protos\LuCat.proto" Link="Protos\LuCat.proto" />
   </ItemGroup>
 
 </Project>
