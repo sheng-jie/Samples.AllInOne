@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Grpc.demo
+namespace Grpc.Demo.Server
 {
     public class Program
     {
