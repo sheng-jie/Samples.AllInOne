@@ -9,8 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\Protos\greet.proto" Link="Protos\greet.proto" />
-    <Protobuf Include="..\Protos\LuCat.proto" Link="Protos\LuCat.proto" />
+    <Protobuf Include="..\Protos\*.proto" Link="Protos\%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 
 </Project>
