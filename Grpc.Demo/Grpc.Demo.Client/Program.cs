@@ -16,6 +16,11 @@ namespace Grpc.Demo.Client
             var reply = await client.SayHelloAsync(
                 new HelloRequest { Name = "Grpc!" });
             Console.WriteLine("Greeter Return: " + reply.Message);
+
+            var catClient = new LuCat.LuCatClient(channel);
+            
+            var catReply = await catClient.SuckingCatAsync(new Empty());
+            Console.WriteLine("调用撸猫服务："+ catReply.Message);
             Console.ReadKey();
         }
     }

@@ -32,6 +32,7 @@ namespace Grpc.Demo.Server
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<GreeterService>();
+                endpoints.MapGrpcService<LuCatService>();
 
                 endpoints.MapGet("/", async context =>
                 {
