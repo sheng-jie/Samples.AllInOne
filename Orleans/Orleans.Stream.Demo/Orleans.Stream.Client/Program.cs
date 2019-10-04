@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Orleans.Configuration;
+using Orleans.Hosting;
+using Orleans.Runtime;
 using Orleans.Stream.Grain;
 
 namespace Orleans.Stream.Client
@@ -39,6 +41,7 @@ namespace Orleans.Stream.Client
         {
             var client = new ClientBuilder()
                 .UseLocalhostClustering()
+                .AddSimpleMessageStreamProvider("SMSProvider")
                 .Configure<ClusterOptions>(options =>
                 {
                     options.ClusterId = "dev";
@@ -56,8 +59,12 @@ namespace Orleans.Stream.Client
         {
             // example of calling grains from the initialized client
             var friend = client.GetGrain<IHelloOrleans>(0);
+
+            var guid = Guid.NewGuid();
             var response = await friend.SayHi("Good morning, HelloGrain!");
+
             Console.WriteLine(response);
         }
     }
+
 }

@@ -40,6 +40,8 @@ namespace Orleans.Stream.Silo
             // define the cluster configuration
             var builder = new SiloHostBuilder()
                 .UseLocalhostClustering()
+                .AddSimpleMessageStreamProvider("SMSProvider")
+                .AddMemoryGrainStorage("PubSubStore")
                 .Configure<ClusterOptions>(options =>
                 {
                     options.ClusterId = "dev";
