@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Orleans.Configuration;
@@ -63,7 +64,26 @@ namespace Orleans.Stream.Client
             var guid = Guid.NewGuid();
             var response = await friend.SayHi("Good morning, HelloGrain!");
 
+            
             Console.WriteLine(response);
+
+            var timerGrain = client.GetGrain<ITimerGrain>(Guid.NewGuid());
+            var timerTask = timerGrain.GetValueAsync();
+
+            var reminderGrain = client.GetGrain<IReminderGrain>(Guid.NewGuid());
+            var reminderTask = reminderGrain.GetValueAsync();
+            
+            Thread.Sleep(2000);
+
+            var results = await Task.WhenAll(timerTask, reminderTask);
+
+
+            Console.WriteLine($"Timer Result:{timerGrain.GetValueAsync().Result}");
+
+
+            Console.WriteLine($"Reminder Result:{results}");
+
+
         }
     }
 

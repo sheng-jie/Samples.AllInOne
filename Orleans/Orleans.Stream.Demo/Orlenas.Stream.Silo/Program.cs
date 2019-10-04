@@ -42,6 +42,7 @@ namespace Orleans.Stream.Silo
                 .UseLocalhostClustering()
                 .AddSimpleMessageStreamProvider("SMSProvider")
                 .AddMemoryGrainStorage("PubSubStore")
+                .UseInMemoryReminderService()
                 .Configure<ClusterOptions>(options =>
                 {
                     options.ClusterId = "dev";

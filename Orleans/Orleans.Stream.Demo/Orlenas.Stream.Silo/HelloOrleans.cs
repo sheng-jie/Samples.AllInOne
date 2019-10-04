@@ -6,7 +6,6 @@ using Orleans.Timers;
 
 namespace Orleans.Stream.Silo
 {
-    [ImplicitStreamSubscription("RANDOMDATA")]
     public class HelloOrleans : Orleans.Grain, IHelloOrleans
     {
         public Task<string> SayHi(string message)
@@ -42,6 +41,4 @@ namespace Orleans.Stream.Silo
         }
 
     }
-
-
 }
