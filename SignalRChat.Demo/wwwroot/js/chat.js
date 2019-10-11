@@ -1,6 +1,10 @@
 ﻿"use strict";
 
-var connection = new signalR.HubConnectionBuilder().withUrl("/StronglyTypedChatHub").build();
+var connection = new signalR.HubConnectionBuilder()
+    .withUrl("/StronglyTypedChatHub")
+    .configureLogging(signalR.LogLevel.Information)
+    .withAutomaticReconnect()
+    .build();
 
 //Disable send button until connection is established
 document.getElementById("sendButton").disabled = true;
