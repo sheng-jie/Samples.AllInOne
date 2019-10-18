@@ -10,28 +10,28 @@ namespace NLuaTest
     {
         static void Main(string[] args)
         {
-            bool a = Environment.Is64BitOperatingSystem;
-            IntPtr lib = IntPtr.Zero;
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                var path = Path.Combine(AppContext.BaseDirectory, "lib", "mysql.dll");
-                lib = NativeLibrary.Load(path, Assembly.GetExecutingAssembly(), null);
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                var path = Path.Combine(AppContext.BaseDirectory, "lib", "mysql.so");
-                lib = NativeLibrary.Load(path, Assembly.GetExecutingAssembly(), null);
-            }
-            IntPtr method = NativeLibrary.GetExport(lib, "luaopen_luasql_mysql");
-            KeraLua.LuaFunction function = Marshal.GetDelegateForFunctionPointer<KeraLua.LuaFunction>(method);
+            Test1();
+            Test2();
+        }
+
+        private static void Test1()
+        {
             using (var lua = new Lua())
             {
-                var b = function.GetMethodInfo();
-                KeraLua.Lua state = lua.State;
-                IntPtr ptr = lua.State.Handle;
-                state.RequireF("mysql", function, true);
                 var result = lua.DoFile("test.lua");
             }
         }
+
+        private static void Test2()
+        {
+            using (var lua = new Lua())
+            {
+                lua.State.RequireF("luasql.mysql", luaopen_luasql_mysql, true);
+                var result = lua.DoFile("test.lua");
+            }
+        }
+        
+        [DllImport("mysql.so")]
+        private static extern int luaopen_luasql_mysql(IntPtr state);
     }
 }
