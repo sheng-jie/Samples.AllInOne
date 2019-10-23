@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Orleans.Grains
@@ -27,7 +28,12 @@ namespace Orleans.Grains
             this.PromotionProducts.Add(product);
         }
 
-
+        public override string ToString()
+        {
+            string list = string.Join(Environment.NewLine, PromotionProducts.Select(product => product.ToString()));
+            return $"Promotion Id:{Id},StartTim:{StartTime},EndTime:{EndTime}" + Environment.NewLine
+                                                                               + $"Promotion Products" + Environment.NewLine + $"{list}";
+        }
     }
 }
 

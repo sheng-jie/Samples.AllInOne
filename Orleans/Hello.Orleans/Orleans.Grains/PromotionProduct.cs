@@ -24,5 +24,10 @@ namespace Orleans.Grains
         public PromotionProduct()
         {
         }
+
+        public override string ToString()
+        {
+            return $"{ProductId}\t{Name}\t{MaxBuy}\t{Qty}";
+        }
     }
 }

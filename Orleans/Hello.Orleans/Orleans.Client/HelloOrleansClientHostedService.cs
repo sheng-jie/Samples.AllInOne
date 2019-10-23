@@ -22,7 +22,7 @@ namespace Orleans.Client
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            var promotion = new Promotion(DateTime.Now, DateTime.Now.AddMinutes(5));
+            var promotion = new Promotion(DateTime.Now.AddMinutes(1), DateTime.Now.AddMinutes(5));
 
             var promotionProducts = new List<PromotionProduct>()
             {
@@ -39,6 +39,15 @@ namespace Orleans.Client
                 var productManager = this._client.GetGrain<IPromotionProductManager>(product.ProductId);
                 productManager.InitialProduct(product);
             });
+
+            if (DateTime.Now < promotion.StartTime)
+            {
+                _logger.LogInformation($"秒杀未开始");
+
+                _logger.LogInformation(promotion.ToString());
+
+                await Task.Delay((promotion.StartTime - DateTime.Now).Milliseconds);
+            }
 
             var productRandom = new Random();
 
