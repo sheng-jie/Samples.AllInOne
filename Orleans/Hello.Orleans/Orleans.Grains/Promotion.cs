@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Orleans.Grains
 {
+    /// <summary>
+    /// 秒杀
+    /// </summary>
     public class Promotion
     {
         public Guid Id { get; private set; }
@@ -22,6 +25,10 @@ namespace Orleans.Grains
 
         public List<PromotionProduct> PromotionProducts { get; private set; }
 
+        /// <summary>
+        /// 添加促销商品
+        /// </summary>
+        /// <param name="product"></param>
         public void AddPromotionProduct(PromotionProduct product)
         {
             product.PromotionId = this.Id;
@@ -32,7 +39,7 @@ namespace Orleans.Grains
         {
             string list = string.Join(Environment.NewLine, PromotionProducts.Select(product => product.ToString()));
             return $"Promotion Id:{Id},StartTim:{StartTime},EndTime:{EndTime}" + Environment.NewLine
-                                                                               + $"Promotion Products" + Environment.NewLine + $"{list}";
+                                                                               + $"Promotion Products：" + Environment.NewLine + $"{list}";
         }
     }
 }
