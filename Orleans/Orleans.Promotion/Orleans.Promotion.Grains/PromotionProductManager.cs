@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Orleans.Grains
+namespace Orleans.Promotion.Grains
 {
     public class PromotionProductManager : Grain<PromotionProduct>, IPromotionProductManager
     {

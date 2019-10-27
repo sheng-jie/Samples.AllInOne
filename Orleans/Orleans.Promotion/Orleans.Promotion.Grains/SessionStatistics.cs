@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Orleans.Grains
+namespace Orleans.Promotion.Grains
 {
     /// <summary>
     /// 用于保存会话统计信息

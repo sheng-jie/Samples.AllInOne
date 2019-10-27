@@ -2,13 +2,13 @@
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using Orleans.Configuration;
-using Orleans.Grains;
-using Orleans.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Orleans.Configuration;
+using Orleans.Hosting;
+using Orleans.Promotion.Grains;
 
-namespace Orleans.Server
+namespace Orleans.Promotion.Server
 {
     class Program
     {

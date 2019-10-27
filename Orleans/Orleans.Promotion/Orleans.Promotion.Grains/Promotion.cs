@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace Orleans.Grains
+namespace Orleans.Promotion.Grains
 {
     /// <summary>
     /// 秒杀

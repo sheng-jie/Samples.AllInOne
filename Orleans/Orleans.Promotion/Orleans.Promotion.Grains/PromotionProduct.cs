@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Orleans.Grains
+namespace Orleans.Promotion.Grains
 {
     public class PromotionProduct
     {

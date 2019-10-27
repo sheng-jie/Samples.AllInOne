@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Orleans.Grains
+namespace Orleans.Promotion.Grains
 {
     /// <summary>
     /// 会话控制，超过指定人数，无法参与秒杀

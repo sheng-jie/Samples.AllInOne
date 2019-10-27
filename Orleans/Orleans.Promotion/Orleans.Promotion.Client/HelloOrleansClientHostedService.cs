@@ -5,9 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Orleans.Grains;
+using Orleans.Promotion.Grains;
 
-namespace Orleans.Client
+namespace Orleans.Promotion.Client
 {
     public class HelloOrleansClientHostedService : IHostedService
     {
@@ -22,7 +22,7 @@ namespace Orleans.Client
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            Promotion promotion = await CreateNewPromotion();
+            Grains.Promotion promotion = await CreateNewPromotion();
 
             if (DateTime.Now < promotion.StartTime)
             {
@@ -110,9 +110,9 @@ namespace Orleans.Client
         /// 创建一个5分钟的秒杀活动，10秒后开始
         /// </summary>
         /// <returns></returns>
-        private async Task<Promotion> CreateNewPromotion()
+        private async Task<Grains.Promotion> CreateNewPromotion()
         {
-            var promotion = new Promotion(DateTime.Now.AddSeconds(10), DateTime.Now.AddMinutes(5));
+            var promotion = new Grains.Promotion(DateTime.Now.AddSeconds(10), DateTime.Now.AddMinutes(5));
 
             var promotionProducts = new List<PromotionProduct>()
             {

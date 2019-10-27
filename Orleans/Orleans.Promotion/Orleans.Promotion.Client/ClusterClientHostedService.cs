@@ -5,7 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Orleans.Runtime;
 
-namespace Orleans.Client
+namespace Orleans.Promotion.Client
 {
     public class ClusterClientHostedService : IHostedService
     {
