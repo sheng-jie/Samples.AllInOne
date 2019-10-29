@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Orleans.Grains
@@ -11,6 +12,8 @@ namespace Orleans.Grains
     public class LoginState
     {
         public List<string> LoginUsers { get; set; } = new List<string>();
+
+        public int Count => LoginUsers.Count;
     }
 
     /// <summary>
@@ -24,7 +27,7 @@ namespace Orleans.Grains
             this.State.LoginUsers.Add(userId);
             this.WriteStateAsync();
 
-            Console.WriteLine($"Current active users count of {appName} is {this.State.LoginUsers.Count}");
+            Console.WriteLine($"Current active users count of {appName} is {this.State.Count}");
             return Task.CompletedTask;
         }
 
@@ -35,13 +38,13 @@ namespace Orleans.Grains
             this.State.LoginUsers.Remove(userId);
             this.WriteStateAsync();
 
-            Console.WriteLine($"Current active users count of {appName} is {this.State.LoginUsers.Count}");
+            Console.WriteLine($"Current active users count of {appName} is {this.State.Count}");
             return Task.CompletedTask;
         }
 
         public Task<int> GetActiveUserCount()
         {
-            return Task.FromResult(this.State.LoginUsers.Count);
+            return Task.FromResult(this.State.Count);
         }
     }
 }
