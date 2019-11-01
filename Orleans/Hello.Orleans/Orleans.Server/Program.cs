@@ -20,15 +20,36 @@ namespace Orleans.Server
             return Host.CreateDefaultBuilder()
                 .UseOrleans((builder) =>
                     {
-                        builder.UseLocalhostClustering()
-                            .AddMemoryGrainStorageAsDefault()
-                            .Configure<ClusterOptions>(options =>
-                            {
-                                options.ClusterId = "Hello.Orleans";
-                                options.ServiceId = "Hello.Orleans";
-                            })
-                            .Configure<EndpointOptions>(options => options.AdvertisedIPAddress = IPAddress.Loopback)
-                            .ConfigureApplicationParts(parts =>
+                        var invariant = "System.Data.SqlClient";
+                        var connectionString =
+                            @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Hello.Orleans;Integrated Security=True;Pooling=False;Max Pool Size=200;MultipleActiveResultSets=True";
+
+                        //use AdoNet for clustering 
+                        builder.UseAdoNetClustering(options =>
+                        {
+                            options.Invariant = invariant;
+                            options.ConnectionString = connectionString;
+                        }).Configure<ClusterOptions>(options =>
+                        {
+                            options.ClusterId = "Hello.Orleans";
+                            options.ServiceId = "Hello.Orleans";
+                        }).ConfigureEndpoints(new Random().Next(10001, 20000), new Random().Next(20001, 30000));
+
+                        //use AdoNet for reminder service
+                        builder.UseAdoNetReminderService(options =>
+                        {
+                            options.Invariant = invariant;
+                            options.ConnectionString = connectionString;
+                        });
+
+                        //use AdoNet for Persistence
+                        builder.AddAdoNetGrainStorageAsDefault( options =>
+                        {
+                            options.Invariant = invariant;
+                            options.ConnectionString = connectionString;
+                        });
+
+                        builder.ConfigureApplicationParts(parts =>
                                 parts.AddApplicationPart(typeof(ISessionControlGrain).Assembly).WithReferences());
                     }
                 )

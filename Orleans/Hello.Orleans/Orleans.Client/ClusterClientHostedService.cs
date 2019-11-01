@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Orleans.Configuration;
+using Orleans.Hosting;
 using Orleans.Runtime;
 
 namespace Orleans.Client
@@ -17,13 +18,21 @@ namespace Orleans.Client
         public ClusterClientHostedService(ILogger<ClusterClientHostedService> logger, ILoggerProvider loggerProvider)
         {
             _logger = logger;
+            var invariant = "System.Data.SqlClient";
+            var connectionString =
+                @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Hello.Orleans;Integrated Security=True;Pooling=False;Max Pool Size=200;MultipleActiveResultSets=True";
+
+            //use AdoNet for clustering 
             Client = new ClientBuilder()
-                .UseLocalhostClustering()
-                .Configure<ClusterOptions>(options =>
-                {
-                    options.ClusterId = "Hello.Orleans";
-                    options.ServiceId = "Hello.Orleans";
-                })
+                .UseAdoNetClustering(options =>
+                    {
+                        options.Invariant = invariant;
+                        options.ConnectionString = connectionString;
+                    }).Configure<ClusterOptions>(options =>
+                    {
+                        options.ClusterId = "Hello.Orleans";
+                        options.ServiceId = "Hello.Orleans";
+                    })
                 .ConfigureLogging(builder => builder.AddProvider(loggerProvider))
                 .Build();
         }
