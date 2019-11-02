@@ -36,7 +36,7 @@ namespace Orleans.Client
             //假设我们需要支持不同端登录用户，则只需要将项目名称作为身份标识。
             //即可获取一个代表用来维护当前项目登录状态的的单例Grain。
             var sessionControl = _client.GetGrain<ISessionControlGrain>(appName);
-            ParallelLoopResult result = Parallel.For(0, 10000, (index) =>
+            ParallelLoopResult result = Parallel.For(0, 100, (index) =>
             {
                 var userId = $"User-{index}";
                 sessionControl.Login(userId);

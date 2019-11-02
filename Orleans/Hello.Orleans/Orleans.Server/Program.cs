@@ -47,6 +47,7 @@ namespace Orleans.Server
                         {
                             options.Invariant = invariant;
                             options.ConnectionString = connectionString;
+                            options.UseJsonFormat = true;
                         });
 
                         builder.ConfigureApplicationParts(parts =>

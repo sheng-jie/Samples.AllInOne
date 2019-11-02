@@ -21,14 +21,13 @@ namespace Orleans.Grains
     /// </summary>
     public class SessionControlStateGrain : Grain<LoginState>, ISessionControlGrain
     {
-        public Task Login(string userId)
+        public async Task Login(string userId)
         {
             var appName = this.GetPrimaryKeyString();
             this.State.LoginUsers.Add(userId);
-            this.WriteStateAsync();
+            await this.WriteStateAsync();
 
             Console.WriteLine($"Current active users count of {appName} is {this.State.Count}");
-            return Task.CompletedTask;
         }
 
         public Task Logout(string userId)
