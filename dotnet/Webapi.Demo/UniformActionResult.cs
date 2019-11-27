@@ -9,6 +9,14 @@ namespace Webapi.Demo
     /// </summary>
     public class UniformActionResult : IActionResult
     {
+        public Exception Exception { get; set; }
+
+        public int? StatusCode { get; set; }
+
+        public object Data { get; set; }
+
+        public string ErrMsg { get; set; }
+
         public UniformActionResult(object data, int? statusCode = 200, Exception? exception = null)
         {
             Data = data;
@@ -16,9 +24,17 @@ namespace Webapi.Demo
             Exception = exception;
         }
 
+        public UniformActionResult(object data, int? statusCode = 200, string errMsg = null)
+        {
+            Data = data;
+            StatusCode = statusCode;
+            ErrMsg = errMsg;
+        }
+
+
         public UniformActionResult()
         {
-            
+
         }
 
         public UniformActionResult(UniformResult result)
@@ -27,12 +43,6 @@ namespace Webapi.Demo
             Exception = result.Exception;
             Data = result.Data;
         }
-
-        public Exception Exception { get; set; }
-
-        public int? StatusCode { get; set; }
-
-        public object Data { get; set; }
 
         public async Task ExecuteResultAsync(ActionContext context)
         {
@@ -48,5 +58,7 @@ namespace Webapi.Demo
             await jsonResult.ExecuteResultAsync(context);
         }
     }
+
+
 }
 
