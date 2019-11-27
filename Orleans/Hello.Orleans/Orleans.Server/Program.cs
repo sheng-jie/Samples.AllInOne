@@ -21,7 +21,9 @@ namespace Orleans.Server
                 .UseOrleans((builder) =>
                     {
                         builder.UseLocalhostClustering()
+                            .AddSimpleMessageStreamProvider("SMSProvider")
                             .AddMemoryGrainStorageAsDefault()
+                            .AddMemoryGrainStorage("PubSubStore")
                             .Configure<ClusterOptions>(options =>
                             {
                                 options.ClusterId = "Hello.Orleans";

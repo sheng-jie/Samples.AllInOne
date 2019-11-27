@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Orleans.Grains;
+using Orleans.Streams;
 
 namespace Orleans.Client
 {
@@ -23,6 +24,21 @@ namespace Orleans.Client
            await MockLogin("Hello.Orleans.Console");
            // 模拟网页终端用户登录
            await MockLogin("Hello.Orleans.Web");
+
+           await ConsumerStream();
+
+           await MockLogout("Hello.Orleans.Web");
+
+
+        }
+
+        public async Task ConsumerStream()
+        {
+            var streamProvider = _client.GetStreamProvider("SMSProvider");
+            var stream = streamProvider.GetStream<string>(Guid.NewGuid(), "Logout");
+
+
+            await stream.SubscribeAsync(async (userId, token) => Console.WriteLine($"{userId} logout"));
         }
 
 
@@ -42,7 +58,6 @@ namespace Orleans.Client
                 sessionControl.Login(userId);
             });
 
-
             if (result.IsCompleted)
             {
                 //ParallelLoopResult.IsCompleted 只是返回所有循环创建完毕，并不保证循环的内部任务创建并执行完毕
@@ -51,8 +66,14 @@ namespace Orleans.Client
                 var activeUserCount = await sessionControl.GetActiveUserCount();
 
                 _logger.LogInformation($"The Active Users Count of {appName} is {activeUserCount}");
-
             }
+        }
+
+        public async Task MockLogout(string appName)
+        {
+            var sessionControl = _client.GetGrain<ISessionControlGrain>(appName);
+
+            await sessionControl.MockLogout();
         }
 
 

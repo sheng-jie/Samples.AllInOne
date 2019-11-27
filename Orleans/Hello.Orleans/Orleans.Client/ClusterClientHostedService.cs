@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Orleans.Configuration;
+using Orleans.Hosting;
 using Orleans.Runtime;
 
 namespace Orleans.Client
@@ -24,6 +25,7 @@ namespace Orleans.Client
                     options.ClusterId = "Hello.Orleans";
                     options.ServiceId = "Hello.Orleans";
                 })
+                .AddSimpleMessageStreamProvider("SMSProvider")
                 .ConfigureLogging(builder => builder.AddProvider(loggerProvider))
                 .Build();
         }

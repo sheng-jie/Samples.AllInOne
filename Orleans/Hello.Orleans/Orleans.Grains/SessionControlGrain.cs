@@ -33,6 +33,26 @@ namespace Orleans.Grains
         {
             return Task.FromResult(LoginUsers.Count);
         }
+
+        public Task MockLogout()
+        {
+            var streamProvider = this.GetStreamProvider("SMSProvider");
+            var stream = streamProvider.GetStream<string>(Guid.NewGuid(), "Logout");
+
+            //随机logout
+            Random r = new Random();
+            RegisterTimer(s =>
+            {
+                var index = r.Next(this.LoginUsers.Count - 1);
+                var removeItem = this.LoginUsers[index];
+                this.LoginUsers.Remove(removeItem);
+                return stream.OnNextAsync(removeItem);
+            }, null, TimeSpan.FromMilliseconds(1000), TimeSpan.FromMilliseconds(1000));
+
+            return Task.CompletedTask;
+        }
+
+
     }
 
 

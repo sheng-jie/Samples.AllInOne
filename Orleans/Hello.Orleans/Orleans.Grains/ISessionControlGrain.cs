@@ -10,5 +10,6 @@ namespace Orleans.Grains
         Task Login(string userId);
         Task Logout(string userId);
         Task<int> GetActiveUserCount();
+        Task MockLogout();
     }
 }

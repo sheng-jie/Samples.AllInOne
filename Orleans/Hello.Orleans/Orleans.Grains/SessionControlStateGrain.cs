@@ -43,5 +43,10 @@ namespace Orleans.Grains
         {
             return Task.FromResult(this.State.LoginUsers.Count);
         }
+
+        public Task MockLogout()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
