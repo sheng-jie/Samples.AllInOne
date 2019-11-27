@@ -17,6 +17,8 @@ namespace Webapi.Demo
                 context.Result = uniformResult;
 
             }
+
+            await next();
         }
     }
 }

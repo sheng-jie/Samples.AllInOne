@@ -9,22 +9,40 @@ namespace Webapi.Demo
     /// </summary>
     public class UniformActionResult : IActionResult
     {
-        private readonly object _data;
-        private readonly int? _statusCode;
-        private readonly Exception _exception;
+        private object _data;
+        private int? _statusCode;
+        private Exception _exception;
 
         public UniformActionResult(object data, int? statusCode = 200, Exception? exception = null)
         {
-            _data = data;
-            _statusCode = statusCode;
-            _exception = exception;
+            Data = data;
+            StatusCode = statusCode;
+            Exception = exception;
         }
 
         public UniformActionResult(UniformResult result)
         {
-            _statusCode = result.StatusCode;
-            _exception = result.Exception;
-            _data = result.Data;
+            StatusCode = result.StatusCode;
+            Exception = result.Exception;
+            Data = result.Data;
+        }
+
+        public Exception Exception
+        {
+            get => _exception;
+            set => _exception = value;
+        }
+
+        public int? StatusCode
+        {
+            get => _statusCode;
+            set => _statusCode = value;
+        }
+
+        public object Data
+        {
+            get => _data;
+            set => _data = value;
         }
 
         public async Task ExecuteResultAsync(ActionContext context)
@@ -42,9 +60,9 @@ namespace Webapi.Demo
 
             var data = new
             {
-                StatusCode = this._statusCode ?? this._exception?.HResult,
-                Data = _data,
-                ErrorMessage = this._exception?.Message
+                StatusCode = this.StatusCode ?? this.Exception?.HResult,
+                Data = Data,
+                ErrorMessage = this.Exception?.Message
             };
 
             var jsonResult = new JsonResult(data);

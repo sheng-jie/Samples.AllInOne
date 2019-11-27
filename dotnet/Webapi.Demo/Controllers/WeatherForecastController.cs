@@ -35,8 +35,8 @@ namespace Webapi.Demo.Controllers
             })
             .ToArray();
 
-            return Ok(result);
-//            return new UniformActionResult(result);
+            //return Ok(result);
+            return new UniformActionResult(result);
         }
     }
 }
