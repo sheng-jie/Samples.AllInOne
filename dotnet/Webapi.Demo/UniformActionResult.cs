@@ -49,9 +49,9 @@ namespace Webapi.Demo
 
             var data = new
             {
-                StatusCode = this.StatusCode ?? this.Exception?.HResult,
+                Code = this.StatusCode ?? this.Exception?.HResult,
                 Data = Data,
-                ErrorMessage = this.Exception?.Message
+                ErrorMsg = this.Exception?.Message
             };
 
             var jsonResult = new JsonResult(data);
