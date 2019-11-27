@@ -35,6 +35,9 @@ namespace Webapi.Demo.Controllers
             })
             .ToArray();
 
+
+            return Conflict(rng);
+            return NotFound(rng);
             throw new NotImplementedException("exception is occur");
 
             return BadRequest(result);

@@ -36,17 +36,6 @@ namespace Webapi.Demo
 
         public async Task ExecuteResultAsync(ActionContext context)
         {
-
-            //var objectResult = new ObjectResult(this.Exception ?? this.Data)
-            //{
-            //    StatusCode = this.Exception != null
-            //        ? StatusCodes.Status500InternalServerError
-            //        : StatusCodes.Status200OK,
-            //    ContentTypes = new MediaTypeCollection() { MediaTypeNames.Application.Json },
-            //    DeclaredType = typeof(UniformResponse),
-            //    Formatters = new FormatterCollection<IOutputFormatter>() { }
-            //};
-
             var data = new
             {
                 Code = this.StatusCode ?? this.Exception?.HResult,

@@ -21,13 +21,19 @@ namespace Webapi.Demo
             {
                 uniformResult.Data = objectResult.StatusCode == StatusCodes.Status200OK ? objectResult.Value : null;
                 uniformResult.StatusCode = objectResult.StatusCode;
+                await uniformResult.ExecuteResultAsync(context);
+                context.Result = uniformResult;
             }
-
-
-            await uniformResult.ExecuteResultAsync(context);
-
-            context.Result = uniformResult;
-
+            else if (context.Result is StatusCodeResult statusCodeResult)
+            {
+                uniformResult.StatusCode = statusCodeResult.StatusCode;
+                await uniformResult.ExecuteResultAsync(context);
+                context.Result = uniformResult;
+            }
+            else
+            {
+                await next();
+            }
 
 
         }
