@@ -9,15 +9,16 @@ namespace Webapi.Demo
     /// </summary>
     public class UniformActionResult : IActionResult
     {
-        private object _data;
-        private int? _statusCode;
-        private Exception _exception;
-
         public UniformActionResult(object data, int? statusCode = 200, Exception? exception = null)
         {
             Data = data;
             StatusCode = statusCode;
             Exception = exception;
+        }
+
+        public UniformActionResult()
+        {
+            
         }
 
         public UniformActionResult(UniformResult result)
@@ -27,23 +28,11 @@ namespace Webapi.Demo
             Data = result.Data;
         }
 
-        public Exception Exception
-        {
-            get => _exception;
-            set => _exception = value;
-        }
+        public Exception Exception { get; set; }
 
-        public int? StatusCode
-        {
-            get => _statusCode;
-            set => _statusCode = value;
-        }
+        public int? StatusCode { get; set; }
 
-        public object Data
-        {
-            get => _data;
-            set => _data = value;
-        }
+        public object Data { get; set; }
 
         public async Task ExecuteResultAsync(ActionContext context)
         {

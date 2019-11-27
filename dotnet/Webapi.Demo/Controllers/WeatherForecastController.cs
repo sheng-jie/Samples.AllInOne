@@ -35,7 +35,10 @@ namespace Webapi.Demo.Controllers
             })
             .ToArray();
 
-            //return Ok(result);
+            throw new NotImplementedException("exception is occur");
+
+            return BadRequest(result);
+            return Ok(result);
             return new UniformActionResult(result);
         }
     }
