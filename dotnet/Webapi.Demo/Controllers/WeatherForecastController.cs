@@ -42,7 +42,6 @@ namespace Webapi.Demo.Controllers
 
             return BadRequest(result);
             return Ok(result);
-            return new UniformActionResult(result);
         }
     }
 }
