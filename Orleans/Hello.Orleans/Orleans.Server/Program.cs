@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Orleans.AdoNet.SqlServer.Clustering;
+using Orleans.AdoNet.SqlServer.Persistence;
+using Orleans.AdoNet.SqlServer.Reminder;
 using Orleans.Configuration;
 using Orleans.Grains;
 using Orleans.Hosting;
@@ -20,14 +23,12 @@ namespace Orleans.Server
             return Host.CreateDefaultBuilder()
                 .UseOrleans((builder) =>
                     {
-                        var invariant = "System.Data.SqlClient";
                         var connectionString =
                             @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Hello.Orleans;Integrated Security=True;Pooling=False;Max Pool Size=200;MultipleActiveResultSets=True";
 
                         //use AdoNet for clustering 
-                        builder.UseAdoNetClustering(options =>
+                        builder.UseSqlServerClustering(options =>
                         {
-                            options.Invariant = invariant;
                             options.ConnectionString = connectionString;
                         }).Configure<ClusterOptions>(options =>
                         {
@@ -36,16 +37,14 @@ namespace Orleans.Server
                         }).ConfigureEndpoints(new Random().Next(10001, 20000), new Random().Next(20001, 30000));
 
                         //use AdoNet for reminder service
-                        builder.UseAdoNetReminderService(options =>
+                        builder.UseSqlServerReminderService(options =>
                         {
-                            options.Invariant = invariant;
                             options.ConnectionString = connectionString;
                         });
 
                         //use AdoNet for Persistence
-                        builder.AddAdoNetGrainStorageAsDefault( options =>
+                        builder.AddSqlServerGrainStorageAsDefault( options =>
                         {
-                            options.Invariant = invariant;
                             options.ConnectionString = connectionString;
                             options.UseJsonFormat = true;
                         });
