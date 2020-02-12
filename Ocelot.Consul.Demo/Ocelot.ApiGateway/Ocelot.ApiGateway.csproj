@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MMLib.SwaggerForOcelot" Version="1.10.5" />
+    <PackageReference Include="Ocelot" Version="14.0.9" />
+    <PackageReference Include="Ocelot.Provider.Consul" Version="14.0.9" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
+  </ItemGroup>
+
+</Project>
