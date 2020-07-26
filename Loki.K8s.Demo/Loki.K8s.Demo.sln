@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30309.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Loki.K8s.Demo", "Loki.K8s.Demo.csproj", "{31C36351-DD7D-49BF-86F5-DC98860A781B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31C36351-DD7D-49BF-86F5-DC98860A781B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31C36351-DD7D-49BF-86F5-DC98860A781B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31C36351-DD7D-49BF-86F5-DC98860A781B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31C36351-DD7D-49BF-86F5-DC98860A781B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {996FDFDC-540D-4EC1-9275-A005AE040602}
+	EndGlobalSection
+EndGlobal
