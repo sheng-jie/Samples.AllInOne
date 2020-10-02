@@ -66,6 +66,11 @@ namespace Loki.K8s.Demo
             logger.LogInformation($"{this.GetType()} is disposed!");
         }
 
-        public string GetStr() => Guid.NewGuid().ToString();
+        public string GetStr()
+        {
+
+            //throw new ArgumentNullException();
+            return Guid.NewGuid().ToString();
+        }
     }
 }
