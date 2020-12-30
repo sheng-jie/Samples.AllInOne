@@ -1,0 +1,39 @@
+version: '3.4'
+
+services:
+
+  elasticsearch:
+   image: elasticsearch:7.1.1
+   container_name: elasticsearch
+   ports:
+    - "9200:9200"
+   volumes:
+    - elasticsearch-data:/usr/share/elasticsearch/data
+   environment:
+    - discovery.type=single-node
+    - xpack.security.enabled=false
+    - xpack.monitoring.enabled=true
+    - xpack.watcher.enabled=false
+    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+   networks:
+    - docker-network
+
+  kibana:
+   image: kibana:7.1.1
+   container_name: kibana
+   ports:
+    - "5601:5601"
+   depends_on:
+    - elasticsearch
+   environment:
+    - ELASTICSEARCH_HOSTS=${ELASTICSEARCH_URL}
+    - XPACK_MONITORING_ENABLED=true
+   networks:
+    - docker-network
+  
+networks:
+  docker-network:
+    driver: bridge
+
+volumes:
+  elasticsearch-data:

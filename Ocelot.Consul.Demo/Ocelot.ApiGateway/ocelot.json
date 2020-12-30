@@ -1,0 +1,57 @@
+{
+    "ReRoutes": [
+        {
+            "DownstreamPathTemplate": "/{everything}",
+            "DownstreamScheme": "http",
+            "UpstreamPathTemplate": "/Ocelot.Api1/{everything}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "ServiceName": "Ocelot.Api1",
+            "SwaggerKey": "ocelot.api1"
+        }
+    ],
+    "SwaggerEndPoints": [
+        {
+            "Key": "ocelot.api1",
+            "Config": [
+                {
+                    "Name": "ocelot.api1",
+                    "Version": "v1",
+                    "Url": "https://localhost:44397/swagger/v1/swagger.json"
+                }
+            ]
+        }
+        //,{
+        //    "Key": "orders",
+        //    "Config": [
+        //        {
+        //            "Name": "Orders API",
+        //            "Version": "v0.9",
+        //            "Url": "http://localhost:5200/swagger/v0.9/swagger.json"
+        //        },
+        //        {
+        //            "Name": "Orders API",
+        //            "Version": "v1",
+        //            "Url": "http://localhost:5200/swagger/v1/swagger.json"
+        //        },
+        //        {
+        //            "Name": "Orders API",
+        //            "Version": "v2",
+        //            "Url": "http://localhost:5200/swagger/v2/swagger.json"
+        //        },
+        //        {
+        //            "Name": "Orders API",
+        //            "Version": "v3",
+        //            "Url": "http://localhost:5200/swagger/v3/swagger.json"
+        //        }
+        //    ]
+        //}
+    ],
+    "GlobalConfiguration": {
+        "BaseUrl": "http://localhost",
+        "ServiceDiscoveryProvider": {
+            "Host": "localhost",
+            "Port": 8500,
+            "Type": "Consul"
+        }
+    }
+}
