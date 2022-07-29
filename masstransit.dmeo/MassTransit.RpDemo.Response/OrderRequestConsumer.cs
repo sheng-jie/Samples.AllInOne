@@ -9,7 +9,7 @@ public class OrderRequestConsumer : IConsumer<IOrderRequest>
     public async Task Consume(ConsumeContext<IOrderRequest> context)
     {
         Console.WriteLine($"Receive order request:{context.Message.OrderId}");
-        await context.RespondAsync<IOrderResponse>(new OrderResponse()
+        await context.RespondAsync<IOrderResponse>(new 
         {
             Order = new Order()
             {

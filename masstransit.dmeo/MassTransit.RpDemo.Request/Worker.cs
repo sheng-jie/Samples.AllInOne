@@ -20,7 +20,7 @@ public class Worker : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             var orderId = Guid.NewGuid().ToString();
-            var requestTask =  orderRequestClient.GetResponse<IOrderResponse>(new OrderRequest(orderId));
+            var requestTask =  orderRequestClient.GetResponse<IOrderResponse>(new {OrderId=orderId});
 
             var response = await requestTask;
 
