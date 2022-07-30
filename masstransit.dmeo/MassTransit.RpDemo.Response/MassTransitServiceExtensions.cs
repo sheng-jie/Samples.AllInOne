@@ -34,20 +34,22 @@ public static class MassTransitServiceExtensions
                         hostConfig.Password("guest");
                     });
 
+                busConfig.ConfigureEndpoints(context);
+
                 // busConfig.ReceiveEndpoint("orders",
                 //     cfg => { cfg.ConfigureConsumer<OrderRequestConsumer>(context); });
                 
                 busConfig.ReceiveEndpoint("orders",
                     cfg =>
                     {
-                        cfg.Handler<IOrderRequest>(async context =>
+                        cfg.Handler<IOrderRequest>(async consumeContext =>
                         {
-                            Console.WriteLine($"Receive order request:{context.Message.OrderId}");
-                            await context.RespondAsync<IOrderResponse>(new 
+                            Console.WriteLine($"Receive order request:{consumeContext.Message.OrderId}");
+                            await consumeContext.RespondAsync<IOrderResponse>(new 
                             {
                                 Order = new Order()
                                 {
-                                    OrderId = context.Message.OrderId,
+                                    OrderId = consumeContext.Message.OrderId,
                                     Amount = DateTime.Now.Millisecond,
                                     PaidTime = DateTime.Now.AddHours(-10)
                                 }
