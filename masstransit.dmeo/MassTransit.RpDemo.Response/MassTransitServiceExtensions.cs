@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using MassTransit.RequestResponseDemo;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MassTransit.RpDemo.Response;
@@ -33,8 +34,26 @@ public static class MassTransitServiceExtensions
                         hostConfig.Password("guest");
                     });
 
+                // busConfig.ReceiveEndpoint("orders",
+                //     cfg => { cfg.ConfigureConsumer<OrderRequestConsumer>(context); });
+                
                 busConfig.ReceiveEndpoint("orders",
-                    cfg => { cfg.ConfigureConsumer<OrderRequestConsumer>(context); });
+                    cfg =>
+                    {
+                        cfg.Handler<IOrderRequest>(async context =>
+                        {
+                            Console.WriteLine($"Receive order request:{context.Message.OrderId}");
+                            await context.RespondAsync<IOrderResponse>(new 
+                            {
+                                Order = new Order()
+                                {
+                                    OrderId = context.Message.OrderId,
+                                    Amount = DateTime.Now.Millisecond,
+                                    PaidTime = DateTime.Now.AddHours(-10)
+                                }
+                            });
+                        });
+                    });
             });
         });
     }
