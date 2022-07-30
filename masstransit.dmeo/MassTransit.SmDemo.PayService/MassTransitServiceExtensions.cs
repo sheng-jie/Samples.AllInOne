@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using MassTransit.SmDemo.Share.Contracts;
 
-namespace MassTransit.SmDemo.OrderApi;
+namespace MassTransit.SmDemo.PayService;
 
 public static class MassTransitServiceExtensions
 {
@@ -21,7 +21,6 @@ public static class MassTransitServiceExtensions
             x.AddSagaStateMachines(entryAssembly);
             x.AddSagas(entryAssembly);
             x.AddActivities(entryAssembly);
-
             x.UsingRabbitMq((context, busConfig) =>
             {
                 busConfig.Host(
@@ -33,12 +32,10 @@ public static class MassTransitServiceExtensions
                         hostConfig.Username("guest");
                         hostConfig.Password("guest");
                     });
-
+                
                 busConfig.ConfigureEndpoints(context);
             });
-
-            x.AddRequestClient<ISubmitOrderRequest>();
-            x.AddRequestClient<ICheckStockRequest>();
+            
             x.AddRequestClient<IGetOrderRequest>();
         });
     }

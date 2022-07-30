@@ -8,19 +8,24 @@ namespace MassTransit.SmDemo.OrderApi.Controllers;
 [Route("[controller]")]
 public class OrderController : ControllerBase
 {
+    private readonly IRequestClient<IGetOrderRequest> _getOrderRequestClient;
     private readonly IRequestClient<ISubmitOrderRequest> _submitOrderRequestClient;
-    // private readonly Logger<OrderController> _logger;
+    private readonly ILogger<OrderController> _logger;
 
-    public OrderController(IRequestClient<ISubmitOrderRequest> submitOrderRequestClient)
+    public OrderController(IRequestClient<IGetOrderRequest> getOrderRequestClient,
+    IRequestClient<ISubmitOrderRequest> submitOrderRequestClient, ILogger<OrderController> logger)
     {
+        _getOrderRequestClient = getOrderRequestClient;
         _submitOrderRequestClient = submitOrderRequestClient;
-        // _logger = logger;
+        _logger = logger;
     }
 
     [HttpGet]
     public async Task<IActionResult> Get(string orderId)
     {
-        throw new NotImplementedException();
+        var order = await _getOrderRequestClient.GetResponse<Order>(new { OrderId = orderId });
+
+        return Ok(order.Message);
     }
 
     [HttpPost]
@@ -40,13 +45,13 @@ public class OrderController : ControllerBase
         if (accepted.IsCompletedSuccessfully)
         {
             var response = await accepted;
-            // _logger.LogWarning($"Submit order succeed, orderId:{response.Message.Order.OrderId}, amount:{response.Message.Order.Amount}");
+            _logger.LogWarning($"Submit order succeed, orderId:{response.Message.Order.OrderId}, amount:{response.Message.Order.Amount}");
             return Accepted(response);
         }
         else
         {
             var response = await rejected;
-            // _logger.LogWarning($"Submit order failed:{response.Message.Reason}");
+            _logger.LogWarning($"Submit order failed:{response.Message.Reason}");
 
             return BadRequest(response.Message.Reason);
         }

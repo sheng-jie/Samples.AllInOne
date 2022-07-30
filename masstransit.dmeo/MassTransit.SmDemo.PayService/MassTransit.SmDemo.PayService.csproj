@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>dotnet-MassTransit.SmDemo.PayService-2BDA8C2C-6212-4E3E-B72C-F4E0DCB399AB</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.5" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\MassTransit.SmDemo.Share\MassTransit.SmDemo.Share.csproj" />
+    </ItemGroup>
+</Project>

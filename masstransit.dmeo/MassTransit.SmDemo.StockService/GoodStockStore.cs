@@ -3,15 +3,21 @@
 public static class GoodStockStore
 {
     private static Dictionary<string, uint> _goodStocks;
+    private static object lockObj = new object();
 
     static GoodStockStore()
     {
         _goodStocks = new Dictionary<string, uint>()
         {
             { "iphone 14", 10 },
-            { "iphone 14 Charge", 5 },
+            { "iphone 14 charge", 5 },
             { "ipad air", 5 },
         };
+    }
+
+    public static Dictionary<string, uint> GetStocks()
+    {
+        return _goodStocks;
     }
 
     /// <summary>
@@ -20,7 +26,7 @@ public static class GoodStockStore
     /// <param name="goodId"></param>
     /// <param name="requireNum"></param>
     /// <returns></returns>
-    public static bool HasStock(string goodId,uint requireNum)
+    public static bool HasStock(string goodId, uint requireNum)
     {
         if (_goodStocks.TryGetValue(goodId, out var remainStock))
         {
@@ -31,29 +37,38 @@ public static class GoodStockStore
     }
 
     /// <summary>
-    /// 扣减库存
+    /// 预留库存
     /// </summary>
-    /// <param name="goodId"></param>
-    /// <param name="num"></param>
+    /// <param name="reserveItems"></param>
     /// <returns></returns>
-    public static bool DeductStock(string goodId, uint num)
+    public static bool ReserveStock(Dictionary<string, uint> reserveItems)
     {
-        if (HasStock(goodId, num))
+        lock (lockObj)
         {
-            _goodStocks[goodId] -= num;
-            return true;
-        }
+            if (reserveItems.All(item => HasStock(item.Key, item.Value)))
+            {
+                foreach (var reserveItem in reserveItems)
+                {
+                    _goodStocks[reserveItem.Key] -= reserveItem.Value;
+                }
 
-        return false;
+                return true;
+            }
+
+            return false;
+        }
     }
+
     /// <summary>
     /// 返还库存
     /// </summary>
-    /// <param name="goodId"></param>
-    /// <param name="num"></param>
+    /// <param name="returnItems"></param>
     /// <returns></returns>
-    public static void ReturnStock(string goodId, uint num)
+    public static void ReturnStock(Dictionary<string, uint> returnItems)
     {
-        _goodStocks[goodId] += num;
+        foreach (var returnItem in returnItems)
+        {
+            _goodStocks[returnItem.Key] += returnItem.Value;
+        }
     }
 }

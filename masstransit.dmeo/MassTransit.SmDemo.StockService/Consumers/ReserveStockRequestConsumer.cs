@@ -2,22 +2,31 @@
 
 namespace MassTransit.SmDemo.StockService.Consumers;
 
-public class CheckStockRequestConsumer : IConsumer<IReserveStockRequest>
+public class ReserveStockRequestConsumer : IConsumer<IReserveStockRequest>
 {
     public async Task Consume(ConsumeContext<IReserveStockRequest> context)
     {
-        var hasStock = CheckStock(context.Message);
+        var isSucceed = GoodStockStore.ReserveStock(context.Message.Items);
 
         await context.RespondAsync<IReserveStockResponse>(new
         {
-            IsSucceed = hasStock,
-            Message = hasStock ? "库存预留成功！" : "库存不足！"
+            IsSucceed = isSucceed,
+            Message = isSucceed ? "库存预留成功！" : "库存不足！"
         });
     }
+}
 
-    private bool CheckStock(IReserveStockRequest request)
+public class CheckStockRequestConsumer : IConsumer<ICheckStockRequest>
+{
+    public async Task Consume(ConsumeContext<ICheckStockRequest> context)
     {
-        var hasStock = request.Items.All(item => GoodStockStore.HasStock(item.Key, item.Value));
-        return hasStock;
+        var stocks = GoodStockStore.GetStocks();
+
+        await context.RespondAsync<ICheckStockResponse>(new 
+        {
+            Stocks = stocks
+        });
     }
+    
+    
 }

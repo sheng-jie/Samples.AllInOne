@@ -22,7 +22,10 @@ public class SubmitOrderRequestConsumer : IConsumer<ISubmitOrderRequest>
 
         //预留库存
         var reserveResponse = await _reserveStockRequestClient.GetResponse<IReserveStockResponse>(
-            context.Message.OrderItems.ToDictionary(item => item.GoodId, item => item.Num));
+            new
+            {
+                Items = context.Message.OrderItems.ToDictionary(item => item.GoodId, item => item.Num)
+            });
 
         if (!reserveResponse.Message.IsSucceed)
         {
@@ -34,6 +37,7 @@ public class SubmitOrderRequestConsumer : IConsumer<ISubmitOrderRequest>
         }
 
         var newOrder = CreatOrder(context.Message);
+        OrderStore.AddOrder(newOrder);
 
         await context.RespondAsync<OrderSubmitSucceed>(new
         {
