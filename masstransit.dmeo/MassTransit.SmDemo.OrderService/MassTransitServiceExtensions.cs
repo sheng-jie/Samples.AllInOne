@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using MassTransit.SmDemo.OrderService.StateMachines;
 using MassTransit.SmDemo.Share.Contracts;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,6 +23,10 @@ public static class MassTransitServiceExtensions
             x.AddSagaStateMachines(entryAssembly);
             x.AddSagas(entryAssembly);
             x.AddActivities(entryAssembly);
+            
+            x.AddSagaStateMachine<OrderStateMachine, OrderState>(typeof(OrderStateMachineDefinition))
+                .InMemoryRepository();
+            
             x.UsingRabbitMq((context, busConfig) =>
             {
                 busConfig.Host(

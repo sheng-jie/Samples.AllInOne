@@ -1,6 +1,6 @@
 ﻿namespace MassTransit.SmDemo.Share.Contracts;
 
-public enum OrderState
+public enum OrderStatus
 {
     Submitted,
     Paid,

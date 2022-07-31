@@ -12,12 +12,12 @@ public class Order
         OrderItems = orderItems;
         CreatTime = DateTime.Now;
         Amount = orderItems.Sum(item => item.Num * item.Price);
-        State = OrderState.Submitted;
+        Status = OrderStatus.Submitted;
     }
     public string UserId { get; private set; }
     public DateTime CreatTime { get; private set; }
 
     public DateTime? PayTime { get; set; }
     public double Amount { get; private set; }
-    public OrderState State { get; set; }
+    public OrderStatus Status { get; set; }
 }

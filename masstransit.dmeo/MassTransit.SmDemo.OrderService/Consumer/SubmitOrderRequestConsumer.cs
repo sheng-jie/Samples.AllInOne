@@ -44,7 +44,7 @@ public class SubmitOrderRequestConsumer : IConsumer<ISubmitOrderRequest>
             Order = newOrder
         });
 
-        await context.Publish(new OrderSubmittedEvent() { OrderId = newOrder.OrderId });
+        await context.Publish<IOrderSubmittedEvent>(new { Order = newOrder });
     }
 
     private Order CreatOrder(ISubmitOrderRequest orderRequest)

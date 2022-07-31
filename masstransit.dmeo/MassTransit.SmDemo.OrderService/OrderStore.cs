@@ -16,11 +16,11 @@ public static class OrderStore
         Orders.Add(order);
     }
 
-    public static void UpdateOrderState(string orderId, OrderState newState)
+    public static void UpdateOrderState(string orderId, OrderStatus newStatus)
     {
         var order = GetOrder(orderId);
-        order.State = newState;
-        if (newState == OrderState.Paid)
+        order.Status = newStatus;
+        if (newStatus == OrderStatus.Paid)
         {
             order.PayTime = DateTime.Now;
         }
