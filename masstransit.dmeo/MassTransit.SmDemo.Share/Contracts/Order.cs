@@ -3,21 +3,21 @@
 public class Order
 {
     public string OrderId { get;  }
-    public List<OrderItem> OrderItems { get; }
+    public List<OrderItem> OrderItems { get; set; }
 
-    public Order(string userId, List<OrderItem> orderItems )
+    public Order(string orderId,string userId, List<OrderItem> orderItems )
     {
+        OrderId = orderId;
         UserId = userId;
-        OrderId = Guid.NewGuid().ToString();
         OrderItems = orderItems;
         CreatTime = DateTime.Now;
         Amount = orderItems.Sum(item => item.Num * item.Price);
         State = OrderState.Submitted;
     }
-    public string UserId { get; }
-    public DateTime CreatTime { get;  }
-    
+    public string UserId { get; private set; }
+    public DateTime CreatTime { get; private set; }
+
     public DateTime? PayTime { get; set; }
-    public double Amount { get;  }
+    public double Amount { get; private set; }
     public OrderState State { get; set; }
 }

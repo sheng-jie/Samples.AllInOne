@@ -6,6 +6,7 @@ public class GetOrderRequestConsumer:IConsumer<IGetOrderRequest>
 {
     public async Task Consume(ConsumeContext<IGetOrderRequest> context)
     {
-        await context.RespondAsync<Order>(OrderStore.GetOrder(context.Message.OrderId));
+        var order = OrderStore.GetOrder(context.Message.OrderId);
+        await context.RespondAsync<Order>(order);
     }
 }

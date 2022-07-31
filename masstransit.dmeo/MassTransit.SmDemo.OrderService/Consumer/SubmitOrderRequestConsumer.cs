@@ -49,7 +49,7 @@ public class SubmitOrderRequestConsumer : IConsumer<ISubmitOrderRequest>
 
     private Order CreatOrder(ISubmitOrderRequest orderRequest)
     {
-        var newOrder = new Order(orderRequest.UserId, orderRequest.OrderItems);
+        var newOrder = new Order(Guid.NewGuid().ToString(), orderRequest.UserId, orderRequest.OrderItems);
         return newOrder;
     }
 }

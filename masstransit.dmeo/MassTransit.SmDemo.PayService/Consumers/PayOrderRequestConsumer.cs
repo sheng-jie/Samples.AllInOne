@@ -6,10 +6,12 @@ namespace MassTransit.SmDemo.PayService.Consumers;
 public class PayOrderRequestConsumer : IConsumer<IPayOrderRequest>
 {
     private readonly IRequestClient<IGetOrderRequest> _orderRequestClient;
+    private readonly ILogger<PayOrderRequestConsumer> _logger;
 
-    public PayOrderRequestConsumer(IRequestClient<IGetOrderRequest> orderRequestClient)
+    public PayOrderRequestConsumer(IRequestClient<IGetOrderRequest> orderRequestClient,ILogger<PayOrderRequestConsumer> logger)
     {
         _orderRequestClient = orderRequestClient;
+        _logger = logger;
     }
 
     public async Task Consume(ConsumeContext<IPayOrderRequest> context)
@@ -18,6 +20,7 @@ public class PayOrderRequestConsumer : IConsumer<IPayOrderRequest>
         // 标记支付
         if (order.Message.Amount == context.Message.Amount)
         {
+            _logger.LogInformation($"Order paid suceed:{order.Message.OrderId}");
             await context.Publish<IOrderPaidEvent>(new { OrderId = context.Message.OrderId });
         }
     }
