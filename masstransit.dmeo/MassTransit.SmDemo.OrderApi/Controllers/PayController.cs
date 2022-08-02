@@ -28,20 +28,25 @@ public class PayController : ControllerBase
             return BadRequest("无效请求");
         }
 
+        var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:payment"));
+
+        await sendEndpoint.Send<IPayOrderRequest>(new
+        {
+            payRequest.UserId,
+            payRequest.OrderId,
+            payRequest.Amount
+        });
+        
         var (state, orderNotFound) =
             await _getOrderRequestClient.GetResponse<OrderLatestState, OrderNotFound>(new { OrderId = orderId });
         
         if (state.IsCompletedSuccessfully)
         {
-            var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:payment"));
-
-            await sendEndpoint.Send<IPayOrderRequest>(new
+            var orderState = await state;
+            if (orderState.Message.Order.Status==OrderStatus.Paid)
             {
-                payRequest.UserId,
-                payRequest.OrderId,
-                payRequest.Amount
-            });
-            return Ok();
+                return Ok($"订单已支付成功：{orderId}");
+            }   
         }
 
         return BadRequest("订单不存在!");
