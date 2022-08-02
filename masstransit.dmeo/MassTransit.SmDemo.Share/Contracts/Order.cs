@@ -2,10 +2,10 @@
 
 public class Order
 {
-    public string OrderId { get;  }
+    public Guid OrderId { get;  }
     public List<OrderItem> OrderItems { get; set; }
 
-    public Order(string orderId,string userId, List<OrderItem> orderItems )
+    public Order(Guid orderId,string userId, List<OrderItem> orderItems )
     {
         OrderId = orderId;
         UserId = userId;

@@ -4,7 +4,7 @@ IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddMassTransitWithRabbitMq();
-        services.AddHostedService<Worker>();
+        // services.AddHostedService<Worker>();
     })
     .Build();
 

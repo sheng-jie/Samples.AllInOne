@@ -37,7 +37,6 @@ public class SubmitOrderRequestConsumer : IConsumer<ISubmitOrderRequest>
         }
 
         var newOrder = CreatOrder(context.Message);
-        OrderStore.AddOrder(newOrder);
 
         await context.RespondAsync<OrderSubmitSucceed>(new
         {
@@ -49,7 +48,7 @@ public class SubmitOrderRequestConsumer : IConsumer<ISubmitOrderRequest>
 
     private Order CreatOrder(ISubmitOrderRequest orderRequest)
     {
-        var newOrder = new Order(Guid.NewGuid().ToString(), orderRequest.UserId, orderRequest.OrderItems);
+        var newOrder = new Order(Guid.NewGuid(), orderRequest.UserId, orderRequest.OrderItems);
         return newOrder;
     }
 }

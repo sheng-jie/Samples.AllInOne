@@ -39,7 +39,7 @@ public static class MassTransitServiceExtensions
 
             x.AddRequestClient<ISubmitOrderRequest>();
             x.AddRequestClient<ICheckStockRequest>();
-            x.AddRequestClient<IGetOrderRequest>();
+            x.AddRequestClient<IGetOrderStateRequest>();
         });
     }
 }

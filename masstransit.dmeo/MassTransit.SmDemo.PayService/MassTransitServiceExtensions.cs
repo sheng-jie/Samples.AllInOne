@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using MassTransit.SmDemo.PayService.Consumers;
 using MassTransit.SmDemo.Share.Contracts;
 
 namespace MassTransit.SmDemo.PayService;
@@ -33,10 +34,13 @@ public static class MassTransitServiceExtensions
                         hostConfig.Password("guest");
                     });
                 
+                busConfig.ReceiveEndpoint("payment",
+                    cfg => { cfg.ConfigureConsumer<PayOrderRequestConsumer>(context); });
+                
                 busConfig.ConfigureEndpoints(context);
             });
             
-            x.AddRequestClient<IGetOrderRequest>();
+            x.AddRequestClient<IGetOrderStateRequest>();
         });
     }
 }

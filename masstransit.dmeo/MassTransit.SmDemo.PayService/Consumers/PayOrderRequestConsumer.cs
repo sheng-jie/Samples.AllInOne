@@ -5,10 +5,11 @@ namespace MassTransit.SmDemo.PayService.Consumers;
 
 public class PayOrderRequestConsumer : IConsumer<IPayOrderRequest>
 {
-    private readonly IRequestClient<IGetOrderRequest> _orderRequestClient;
+    private readonly IRequestClient<IGetOrderStateRequest> _orderRequestClient;
     private readonly ILogger<PayOrderRequestConsumer> _logger;
 
-    public PayOrderRequestConsumer(IRequestClient<IGetOrderRequest> orderRequestClient,ILogger<PayOrderRequestConsumer> logger)
+    public PayOrderRequestConsumer(IRequestClient<IGetOrderStateRequest> orderRequestClient,
+        ILogger<PayOrderRequestConsumer> logger)
     {
         _orderRequestClient = orderRequestClient;
         _logger = logger;
@@ -16,12 +17,20 @@ public class PayOrderRequestConsumer : IConsumer<IPayOrderRequest>
 
     public async Task Consume(ConsumeContext<IPayOrderRequest> context)
     {
-        var order = await _orderRequestClient.GetResponse<Order>(new { OrderId = context.Message.OrderId });
-        // 标记支付
-        if (order.Message.Amount == context.Message.Amount)
+        var (state, orderNotFound) =
+            await _orderRequestClient.GetResponse<OrderLatestState, OrderNotFound>(new
+                { OrderId = context.Message.OrderId });
+        if (state.IsCompletedSuccessfully)
         {
-            _logger.LogInformation($"Order paid suceed:{order.Message.OrderId}");
-            await context.Publish<IOrderPaidEvent>(new { OrderId = context.Message.OrderId });
+            var orderstate = await state;
+            var order = orderstate.Message;
+
+            // 标记支付
+            if (order.Order.Amount == context.Message.Amount && order.Order.UserId == context.Message.UserId)
+            {
+                _logger.LogInformation($"Order paid suceed:{order.OrderId}");
+                await context.Publish<IOrderPaidEvent>(new { OrderId = context.Message.OrderId });
+            }
         }
     }
 }
