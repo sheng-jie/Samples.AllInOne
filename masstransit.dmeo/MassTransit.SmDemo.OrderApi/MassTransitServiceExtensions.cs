@@ -33,7 +33,7 @@ public static class MassTransitServiceExtensions
                         hostConfig.Username("guest");
                         hostConfig.Password("guest");
                     });
-
+                busConfig.ConfigureEndpoints(context);
                 busConfig.ConfigureEndpoints(context);
             });
 

@@ -9,15 +9,18 @@ namespace MassTransit.SmDemo.OrderApi.Controllers;
 public class OrderController : ControllerBase
 {
     private readonly IRequestClient<IGetOrderStateRequest> _getOrderStateClient;
+    private readonly ISendEndpointProvider _provider;
     private readonly IRequestClient<ISubmitOrderRequest> _submitOrderRequestClient;
     private readonly ILogger<OrderController> _logger;
 
-    public OrderController(IRequestClient<ISubmitOrderRequest> submitOrderRequestClient, ILogger<OrderController> logger,
-        IRequestClient<IGetOrderStateRequest> getOrderStateClient)
+    public OrderController(IRequestClient<ISubmitOrderRequest> submitOrderRequestClient,
+        ILogger<OrderController> logger,
+        IRequestClient<IGetOrderStateRequest> getOrderStateClient, ISendEndpointProvider provider)
     {
         _submitOrderRequestClient = submitOrderRequestClient;
         _logger = logger;
         _getOrderStateClient = getOrderStateClient;
+        _provider = provider;
     }
 
     [HttpGet]
@@ -62,5 +65,18 @@ public class OrderController : ControllerBase
 
             return BadRequest(response.Message.Reason);
         }
+    }
+
+    [HttpPut("{orderId}/[action]")]
+    public async Task<IActionResult> Cancel(string orderId)
+    {
+        var sendEndpoint = await _provider.GetSendEndpoint(new Uri("queue:cancel-order"));
+
+        await sendEndpoint.Send<ICancelOrderRequest>(new
+        {
+            OrderId = orderId
+        });
+
+        return Ok("已提交订单取消申请!");
     }
 }

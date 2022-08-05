@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using MassTransit.SmDemo.OrderService.Consumer;
 using MassTransit.SmDemo.OrderService.StateMachines;
 using MassTransit.SmDemo.Share.Contracts;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,6 +40,8 @@ public static class MassTransitServiceExtensions
                         hostConfig.Password("guest");
                     });
                 
+                busConfig.ReceiveEndpoint("cancel-order",
+                    cfg => { cfg.ConfigureConsumer<CancelOrderRequestConsumer>(context); });
                 busConfig.ConfigureEndpoints(context);
             });
             

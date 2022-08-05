@@ -8,16 +8,16 @@ namespace MassTransit.SmDemo.OrderService.StateMachines
     {
         public OrderStateMachine()
         {
-            Event(() => OrderSubmitted, x => 
+            Event(() => OrderSubmitted, x =>
                 x.CorrelateById(m => m.Message.Order.OrderId));
             Event(() => OrderPaid, x =>
                 x.CorrelateById(m => m.Message.OrderId));
             Event(() => OrderCanceled, x =>
                 x.CorrelateById(m => m.Message.OrderId));
-            
+
             Event(() => OrderShipped, x =>
                 x.CorrelateById(m => m.Message.OrderId));
-            
+
             Event(() => OrderStateRequested, x =>
             {
                 x.CorrelateById(m => m.Message.OrderId);
@@ -25,11 +25,11 @@ namespace MassTransit.SmDemo.OrderService.StateMachines
                 {
                     if (context.RequestId.HasValue)
                     {
-                        await context.RespondAsync<OrderNotFound>(new {context.Message.OrderId});
+                        await context.RespondAsync<OrderNotFound>(new { context.Message.OrderId });
                     }
                 }));
             });
-            
+
             // Event(() => OrderSubmitted, x => 
             //     x.CorrelateBy(m => m.Order.OrderId, x => x.Message.Order.OrderId));
             // Event(() => OrderPaid, x =>
@@ -61,17 +61,16 @@ namespace MassTransit.SmDemo.OrderService.StateMachines
                         context.Saga.Order.PayTime = DateTime.Now;
                         context.Saga.Order.Status = OrderStatus.Paid;
                     })
-                    .TransitionTo(Paid),
+                    .TransitionTo(Paid));
+
+            During(Paid,
+                Ignore(OrderPaid),
                 When(OrderCanceled)
                     .Then(context =>
                     {
                         context.Saga.Updated = DateTime.Now;
                         context.Saga.Order.Status = OrderStatus.Canceled;
-                    }).TransitionTo(Canceled));
-
-
-            During(Paid,
-                Ignore(OrderPaid),
+                    }).TransitionTo(Canceled).Finalize(),//当订单已取消,则订单结束,标记为最终状态
                 When(OrderShipped)
                     .Then(context =>
                     {
@@ -79,13 +78,7 @@ namespace MassTransit.SmDemo.OrderService.StateMachines
                         context.Saga.Order.Status = OrderStatus.Shipped;
                     }).TransitionTo(Shipped));
 
-            SetCompleted(async instance =>
-            {
-                var currentState = await this.GetState(instance);
 
-                return Shipped.Equals(currentState);
-            });
-            
             DuringAny(
                 When(OrderStateRequested)
                     .RespondAsync(x => x.Init<OrderLatestState>(new OrderLatestState()
@@ -96,6 +89,9 @@ namespace MassTransit.SmDemo.OrderService.StateMachines
                         State = x.Saga.CurrentState
                     }))
             );
+
+            //当流程到达终点时,标记状态机完成,并移除状态机
+            SetCompletedWhenFinalized();
         }
 
         public State Submitted { get; private set; }
@@ -107,7 +103,7 @@ namespace MassTransit.SmDemo.OrderService.StateMachines
         public State Completed { get; private set; }
 
         public Event<IOrderSubmittedEvent> OrderSubmitted { get; private set; }
-        
+
         public Event<IGetOrderStateRequest> OrderStateRequested { get; private set; }
         public Event<IOrderPaidEvent> OrderPaid { get; private set; }
 
