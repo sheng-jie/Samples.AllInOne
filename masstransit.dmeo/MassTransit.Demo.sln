@@ -37,6 +37,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassTransit.ScheduleDemo.We
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassTransit.ScheduleDemo.HangfireServer", "MassTransit.ScheduleDemo.HangfireServer\MassTransit.ScheduleDemo.HangfireServer.csproj", "{8B97FB37-B931-4703-B56D-308D7638C11B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ActivityDemo", "ActivityDemo", "{79EC7CDF-A41E-4895-B605-FBEE90A27B42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Masstransit.FirstActivity", "Masstransit.FirstActivity\Masstransit.FirstActivity.csproj", "{1C6165F4-73A6-41FD-9BCD-A231E8E22233}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -94,6 +98,10 @@ Global
 		{8B97FB37-B931-4703-B56D-308D7638C11B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B97FB37-B931-4703-B56D-308D7638C11B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B97FB37-B931-4703-B56D-308D7638C11B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C6165F4-73A6-41FD-9BCD-A231E8E22233}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C6165F4-73A6-41FD-9BCD-A231E8E22233}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C6165F4-73A6-41FD-9BCD-A231E8E22233}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C6165F4-73A6-41FD-9BCD-A231E8E22233}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DD1C637A-930E-4091-82EB-84C9183DCFC7} = {0D65C6F9-1E6B-4962-9555-CB9676F2754B}
@@ -108,5 +116,6 @@ Global
 		{3703C050-2039-42B2-B052-0D6133432390} = {75FB4A2D-F186-4308-9CAA-F25DA0D04161}
 		{5E232B47-8EF6-4AB4-B224-72B14974F1D0} = {F302525F-3E56-4EC4-A50D-46B94D1F0484}
 		{8B97FB37-B931-4703-B56D-308D7638C11B} = {F302525F-3E56-4EC4-A50D-46B94D1F0484}
+		{1C6165F4-73A6-41FD-9BCD-A231E8E22233} = {79EC7CDF-A41E-4895-B605-FBEE90A27B42}
 	EndGlobalSection
 EndGlobal
