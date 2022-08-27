@@ -13,7 +13,7 @@ public static class MassTransitServiceExtensions
             // By default, sagas are in-memory, but should be changed to a durable
             // saga repository.
             x.SetInMemorySagaRepositoryProvider();
-
+            x.AddHangfireConsumers();
             var entryAssembly = Assembly.GetEntryAssembly();
 
             x.AddConsumers(entryAssembly);
@@ -30,7 +30,7 @@ public static class MassTransitServiceExtensions
                         hostConfig.Password("guest");
                     });
                 
-                busConfig.UseHangfireScheduler(context);
+                // busConfig.UseHangfireScheduler(context);
                 
                 busConfig.ConfigureEndpoints(context);
             });
