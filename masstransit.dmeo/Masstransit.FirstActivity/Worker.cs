@@ -26,6 +26,9 @@ public class Worker : BackgroundService
         {
             Value = "Shengjie"
         });
+
+        //为当前routingslip指定特定的事件订阅地址.
+        builder.AddSubscription(new Uri("rabbitmq://localhost/first-routingslip-logevents"), RoutingSlipEvents.All);
         
         var routingSlip = builder.Build();
 

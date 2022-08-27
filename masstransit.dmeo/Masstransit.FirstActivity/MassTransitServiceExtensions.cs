@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using MassTransit;
+using Masstransit.FirstActivity.Consumers;
 
 namespace Masstransit.FirstActivity;
 
@@ -32,12 +33,19 @@ public static class MassTransitServiceExtensions
                         hostConfig.Username("guest");
                         hostConfig.Password("guest");
                     });
-                
+
                 busConfig.ConfigureEndpoints(context);
+
+                busConfig.ReceiveEndpoint("first-routingslip-logevents",
+                    cfg =>
+                    {
+                        cfg.ConfigureConsumer<RoutingSlipConsumer>(context);
+                        cfg.ConfigureConsumer<RoutingSlipActivityConsumer>(context);
+                    });
             });
         });
     }
-    
+
     public static IServiceCollection AddInMemoryMassTransit(this IServiceCollection services)
     {
         return services.AddMassTransit(x =>
@@ -54,11 +62,8 @@ public static class MassTransitServiceExtensions
             x.AddSagaStateMachines(entryAssembly);
             x.AddSagas(entryAssembly);
             x.AddActivities(entryAssembly);
-            
-            x.UsingInMemory((context, cfg) =>
-            {
-                cfg.ConfigureEndpoints(context);
-            });
+
+            x.UsingInMemory((context, cfg) => { cfg.ConfigureEndpoints(context); });
         });
     }
 }
