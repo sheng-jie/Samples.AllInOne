@@ -34,6 +34,13 @@ while (true)
         To = accountB,
         Amount = 200,
     });
+    
+    await b.TransferOut(new TransferRequest()
+    {
+        From = accountB,
+        To = accountA,
+        Amount = 100,
+    });
 
     Console.WriteLine(
         $"After transfer: {accountA}({await a.GetBalanceAsync()}),{accountB}({await b.GetBalanceAsync()})");
