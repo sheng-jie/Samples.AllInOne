@@ -1,3 +1,4 @@
+using MassTransit.Courier.Messages;
 using MassTransit.SmDemo.Share.Contracts;
 using MassTransit.SmDemo.Share.Events;
 
