@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleans.Streaming.Client", "Orleans.Streaming.Client\Orleans.Streaming.Client.csproj", "{A86A4701-3300-4DD5-9506-B63913EA95DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleans.Streaming.GrainInterfaces", "Orleans.Streaming.GrainInterfaces\Orleans.Streaming.GrainInterfaces.csproj", "{E9D51556-3490-4D12-8297-C42C3ED1E600}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleans.Streaming.Grains", "Orleans.Streaming.Grains\Orleans.Streaming.Grains.csproj", "{FB3484D9-F485-4A5E-8DE4-BB1DD47296C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleans.Streaming.Silo", "Orleans.Streaming.Silo\Orleans.Streaming.Silo.csproj", "{AB217BC4-4D5B-4B9E-B538-60BFF39A3DFC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A86A4701-3300-4DD5-9506-B63913EA95DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A86A4701-3300-4DD5-9506-B63913EA95DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A86A4701-3300-4DD5-9506-B63913EA95DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A86A4701-3300-4DD5-9506-B63913EA95DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9D51556-3490-4D12-8297-C42C3ED1E600}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9D51556-3490-4D12-8297-C42C3ED1E600}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9D51556-3490-4D12-8297-C42C3ED1E600}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9D51556-3490-4D12-8297-C42C3ED1E600}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB3484D9-F485-4A5E-8DE4-BB1DD47296C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB3484D9-F485-4A5E-8DE4-BB1DD47296C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB3484D9-F485-4A5E-8DE4-BB1DD47296C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB3484D9-F485-4A5E-8DE4-BB1DD47296C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB217BC4-4D5B-4B9E-B538-60BFF39A3DFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB217BC4-4D5B-4B9E-B538-60BFF39A3DFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB217BC4-4D5B-4B9E-B538-60BFF39A3DFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB217BC4-4D5B-4B9E-B538-60BFF39A3DFC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
