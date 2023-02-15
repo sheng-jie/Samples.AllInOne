@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net6.0</TargetFrameworks>		
+		<Description>a c# client for distributed transaction framework dtm. 分布式事务管理器dtm的c#客户端</Description>
+		<PackageTags>dtm,csharp,distributed transaction,tcc,saga,msg</PackageTags>		
+	</PropertyGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="Dtmcli.Tests" />
+		<!--<None Include="$(MSBuildThisFileDirectory)../../README.md" Pack="true" PackagePath="/" />-->
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net5.0'">
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\DtmCommon\DtmCommon.csproj" />
+	</ItemGroup>
+
+
+</Project>

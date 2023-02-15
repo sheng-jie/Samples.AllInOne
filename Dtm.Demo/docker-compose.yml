@@ -1,0 +1,46 @@
+﻿version: '3.4'
+services:
+  db:
+    image: 'mysql:5.7'
+    container_name: dtm-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456 # 指定MySQL初始密码
+    #command:
+    #  [
+    #    '--character-set-server=utf8mb4',
+    #    '--collation-server=utf8mb4_unicode_ci',
+    #    '--default-authentication-plugin=mysql_native_password',
+    #  ]
+    volumes: ["./docker/mysql/scripts:/docker-entrypoint-initdb.d"]  # 挂载用于初始化数据库的脚本
+    ports:
+      - '3306:3306'
+  dtm:
+    depends_on:
+      - db
+    image: 'yedf/dtm:latest'
+    container_name: dtm-svc
+    environment:
+      IS_DOCKER: '1'
+      STORE_DRIVER: mysql  # 指定使用MySQL持久化DTM事务数据
+      STORE_HOST: db   # 指定MySQL服务名，这里是db
+      STORE_USER: root
+      STORE_PASSWORD: '123456'
+      STORE_PORT: 3306
+      STORE_DB: "dtm" # 指定DTM 数据库名
+    ports:
+      - '36789:36789' # DTM HTTP 端口
+      - '36790:36790' # DTM gRPC 端口
+  dtmdemo.webapi:
+    depends_on:
+      - dtm
+      - db
+    image: ${DOCKER_REGISTRY-}dtmdemowebapi
+    environment:
+      ASPNETCORE_ENVIRONMENT: docker
+    container_name: dtm-webapi-demo
+    build:
+      context: .
+      dockerfile: DtmDemo.WebApi/Dockerfile
+    ports:
+      - '31293:80'   # 映射Demo:80端口到本地31293端口
+      - '31294:443'	 # 映射Demo:443端口到本地31294端口

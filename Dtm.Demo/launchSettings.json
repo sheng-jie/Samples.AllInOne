@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "db": "StartWithoutDebugging",
+        "dtm": "StartWithoutDebugging",
+        "dtmdemo.webapi": "StartDebugging"
+      }
+    }
+  }
+}
