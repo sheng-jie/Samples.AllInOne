@@ -34,12 +34,13 @@ public class SagaDemoController : ControllerBase
     public async Task<IActionResult> Transfer(int fromUserId, int toUserId, decimal amount,
         CancellationToken cancellationToken)
     {
+        var msg = $"用户{fromUserId}转账{amount}元到用户{toUserId}";
         try
         {
-            _logger.LogInformation($"转账事务-启动：用户{fromUserId}转账{amount}元到用户{toUserId}");
+            _logger.LogInformation($"转账事务-启动：{msg}");
             //1. 生成全局事务ID
             var gid = await _dtmClient.GenGid(cancellationToken);
-            var bizUrl = _configuration.GetValue<string>("SagaDemoBaseURL");
+            var bizUrl = _configuration.GetValue<string>("TransferBaseURL");
             //2. 创建Saga
             var saga = _transFactory.NewSaga(gid);
             //3. 添加子事务
@@ -48,16 +49,18 @@ public class SagaDemoController : ControllerBase
                 .Add(bizUrl + "/TransferIn", bizUrl + "/TransferIn_Compensate",
                     new TransferRequest(toUserId, amount))
                 .EnableWaitResult(); // 4. 按需启用是否等待事务执行结果
+
             //5. 提交Saga事务
             await saga.Submit(cancellationToken);
         }
         catch (DtmException ex) // 6. 如果开启了`EnableWaitResult()`，则可通过捕获异常的方式，捕获事务失败的结果。
         {
-            _logger.LogError($"转账事务-失败：用户{fromUserId}转账{amount}元到用户{toUserId}失败！");
+            _logger.LogError($"转账事务-失败：{msg}");
             return new BadRequestObjectResult($"转账失败:{ex.Message}");
         }
-        _logger.LogError($"转账事务-完成：用户{fromUserId}转账{amount}元到用户{toUserId}成功！");
-        return Ok($"转账事务-完成：用户{fromUserId}转账{amount}元到用户{toUserId}成功！");
+
+        _logger.LogError($"转账事务-完成：{msg}");
+        return Ok($"转账事务-完成：{msg}");
     }
 
     [HttpPost("TransferIn")]
