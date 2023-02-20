@@ -40,7 +40,7 @@ public class SagaDemoController : ControllerBase
             _logger.LogInformation($"转账事务-启动：{msg}");
             //1. 生成全局事务ID
             var gid = await _dtmClient.GenGid(cancellationToken);
-            var bizUrl = _configuration.GetValue<string>("TransferBaseURL");
+            var bizUrl = _configuration.GetValue<string>("SagaDemoBaseURL");
             //2. 创建Saga
             var saga = _transFactory.NewSaga(gid);
             //3. 添加子事务

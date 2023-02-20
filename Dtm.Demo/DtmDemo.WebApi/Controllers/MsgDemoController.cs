@@ -47,23 +47,28 @@ public class MsgDemoController : ControllerBase
             //3. 创建二阶段消息
             var msg = _dtmTransFactory.NewMsg(gid);
             //4. 添加子事务分支
+            //msg.Add(svc + "/TransferOut", new TransferRequest(fromUserId, amount));
             msg.Add(svc + "/TransferIn", new TransferRequest(toUserId, amount));
             //5. 按需启用是否等待事务执行结果
             msg.EnableWaitResult();
 
-            //await msg.Prepare(svc + "/msg-queryprepared");
-            //await msg.Submit(cancellationToken);
-            //6. 执行转出本地事务
+            //6. 执行转出本地事务 
             using var connection = _context.Database.GetDbConnection();
             await msg.DoAndSubmitDB(
                 svc + "/msg-queryprepared", connection, async tx =>
                 {
+                    var logMsg = $"用户{fromUserId}转出{amount}元";
+                    _logger.LogInformation($"转出本地事务-执行：{logMsg}");
                     await _context.Database.UseTransactionAsync(tx);
                     var bankAccount = await _context.BankAccount.FindAsync(fromUserId);
                     if (bankAccount == null || bankAccount.Balance < amount)
+                    {
+                        _logger.LogInformation($"转出本地事务-失败：{logMsg}");
                         throw new InvalidDataException("账户不存在或余额不足！");
+                    }
                     bankAccount.Balance -= amount;
                     await _context.SaveChangesAsync();
+                    _logger.LogInformation($"转出本地事务-成功：{logMsg}");
                 }, cancellationToken);
         }
         catch (Exception ex) // 7. 如果开启了`EnableWaitResult()`，则可通过捕获异常的方式，捕获事务失败的结果。
@@ -74,7 +79,6 @@ public class MsgDemoController : ControllerBase
         _logger.LogInformation($"转账事务-完成：{info}");
         return Ok($"转账事务-完成：{info}");
     }
-
 
     [HttpPost("TransferIn")]
     public async Task<IActionResult> TransferIn([FromBody] TransferRequest request)
@@ -106,11 +110,10 @@ public class MsgDemoController : ControllerBase
     public async Task<IActionResult> MsgMySqlQueryPrepared(CancellationToken cancellationToken)
     {
         var bb = _barrierFactory.CreateBranchBarrier(Request.Query);
-        _logger.LogInformation("bb {0}", bb);
+        _logger.LogInformation("执行回查： {0}", bb);
         using (var conn = _context.Database.GetDbConnection())
         {
             var res = await bb.QueryPrepared(conn);
-
             return Ok(new { dtm_result = res });
         }
     }
