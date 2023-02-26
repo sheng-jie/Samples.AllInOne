@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  nlog.nacos.demo:
+    image: ${DOCKER_REGISTRY-}nlognacosdemo
+    build:
+      context: .
+      dockerfile: NLog.Nacos.Demo/Dockerfile

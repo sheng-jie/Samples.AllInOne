@@ -1,0 +1,49 @@
+version: '3.4'
+
+services:
+  nlog.nacos.demo:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - "80"
+      - "443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    depends_on:
+      - nacos
+  nacos:
+    image: nacos/nacos-server:v2.2.0
+    container_name: nacos-standalone-mysql
+    env_file:
+      - ./nacos-docker/env/custom-application-config.env
+    volumes:
+      -  ${APPDATA}/standalone-logs/:/home/nacos/logs
+      - ./nacos-docker/example/init.d/application.properties:/home/nacos/conf/application.properties
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+      - "9555:9555"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    restart: on-failure
+  mysql:
+    container_name: mysql
+    build:
+      context: .
+      dockerfile: ./nacos-docker/example/image/mysql/5.7/Dockerfile
+    image: example/mysql:5.7
+    env_file:
+      - ./nacos-docker/env/mysql.env
+    volumes:
+      - ${APPDATA}/mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
